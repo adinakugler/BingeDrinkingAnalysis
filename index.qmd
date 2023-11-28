@@ -1,1 +1,5 @@
 # Introduction
+
+Welcome to our project about visualizing binge drinking in the united states. We chose this project because binge drinking is often portrayed as a regular occurrence in the life of Americans (especially grad students) and we that it would be interesting if we could visualize binge drinking trends across the state.
+
+According to the CDC, Binge drinking is defined as consuming 5 or more drinks on an occasion for men and 4 or more drinks on an occasion for women. Officially, it's consuming alcohol that brings a person's blood alcohol level to over 0.08%, which averages to the amount stated above. Binge drinking is not uniform across age groups, income levels, geographical location, etc. 
