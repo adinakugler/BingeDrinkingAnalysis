@@ -6,11 +6,11 @@ execute:
   echo: true
 
 book:
-  title: "YOUR PROJECT TITLE"
+  title: "Binge Drinking Analysis"
   author:
-    - AUTHOR1 (UNI1)
-    - AUTHOR2 (UNI2)
-  repo-url: https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME
+    - Adina Kugler (ask2309)
+    - Selim Shaalan (ss6952)
+  repo-url: https://github.com/adinakugler/BingeDrinkingAnalysis.git
   date: today
   page-footer:
     right: |
