@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>YOUR PROJECT TITLE - 2&nbsp; Data</title>
+<title>Binge Drinking Analysis - 2&nbsp; Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -89,9 +89,9 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">YOUR PROJECT TITLE</a> 
+      <a href="./">Binge Drinking Analysis</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/adinakugler/BingeDrinkingAnalysis/tree/main" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -143,9 +143,10 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description"><span class="header-section-number">2.1</span> Description</a></li>
-  <li><a href="#missing-value-analysis" id="toc-missing-value-analysis" class="nav-link" data-scroll-target="#missing-value-analysis"><span class="header-section-number">2.2</span> Missing value analysis</a></li>
+  <li><a href="#research-plan" id="toc-research-plan" class="nav-link" data-scroll-target="#research-plan"><span class="header-section-number">2.2</span> Research plan</a></li>
+  <li><a href="#missing-value-analysis" id="toc-missing-value-analysis" class="nav-link" data-scroll-target="#missing-value-analysis"><span class="header-section-number">2.3</span> Missing value analysis</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME/edit/main/data.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/adinakugler/BingeDrinkingAnalysis/tree/main/edit/main/data.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/adinakugler/BingeDrinkingAnalysis/tree/main/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -169,9 +170,16 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="description" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="description"><span class="header-section-number">2.1</span> Description</h2>
+<p>The data, <em>500 Cities: Binge drinking among adults aged &gt;= 18,</em> is from the Center of Disease Control and Prevention (CDC), which is a United States federal agency within Health and Human Services. It specifically represents the percentage of adults that partake in binge drinking in 500 US cities. While it is a study of 500 cities, there are more than just 500 unique identifiers in the data. This is because, each city is divided into a more specific Census Tract if relevant, so there could be multiple rows representing different parts of the same city, however there will not be any overlap in boundries. There are over 28,000 unique areas in the data. The sources of data used were based on government data collection methods, including the Behavioral Risk Factor Surveillance System in 2017, 2010 Census, and American Community Survey 2013-2017 estimates. This data specifically uses the Behavorial Risk Factor Surveillance System. Each of these estimates are federally funded projects used to gather data on the US population. Specifically, these use exact measures for locations that can be uniform and therefore combined to form the dataset. Each method of collection occurs at a relatively frequent basis. The specific project for the data is the 500 Cities project in 2017. The binge drinking data is just a subset of this larger dataset that was compiled by the CDC. The data provides estimates for crude or age-adjusted percentage of adults that partake in binge drinking. The percentage is based on the locality population size. The data is not updated until a more recent study is performed.</p>
+<p>The data is in tabular form, where each row’s unique identifier is the Unique Id, which is the census level region. Other columns include geographic columns like State, City, type of geological indicator (City or Tract), and GeoLocation. Many columns are not useful since it a subset of a larger dataset. These include Year, DataSource, Category, as well as some others. These are all the same for all rows as it was the way they could be filtered from the original data. For example, the year for all the data is 2017. The main column of data that will be the focus is the DataValue column. This is the percent of the population that partakes in binge drinking. The Data_Value_Type column indicates where the data value is the crude prevalence or age adjusted prevalence. The crude prevalence is used in most of the rows. The prevalence confidence interval is also given as it is an estimate. The population for each area is also available in the dataset. There are 29,006 rows. There are 24 columns, yet about half will be removed due to repeated information. There is a column that notes that the data is suppressed for the prevalence due to the population being too small to make an estimate.</p>
+<p>The data source is <a href="https://data.cdc.gov/500-Cities-Places/500-Cities-Binge-drinking-among-adults-aged-18-yea/gqat-rcqz" class="uri">https://data.cdc.gov/500-Cities-Places/500-Cities-Binge-drinking-among-adults-aged-18-yea/gqat-rcqz</a></p>
 </section>
-<section id="missing-value-analysis" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="missing-value-analysis"><span class="header-section-number">2.2</span> Missing value analysis</h2>
+<section id="research-plan" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="research-plan"><span class="header-section-number">2.2</span> Research plan</h2>
+<p>The research plan is to visualize the prevalence of binge drinking. To do this, geographical data can be used for this visualization. Prevalence of adults that binge drink will be the target variable on the visualizations. Since there is a large amount of geographical data, including mapping of the prevalence can be done. A map colored with a continuous color pallet based on prevalence of binge drinking would be an important visualization to identify nationwide trends. This map can be done both on the local level and on a statewide level. The data is able to create these maps because geographic data is present as well as exact coordinates for each row. This will allow the research and exploration to be completed in a mapping format. Additionally, trends on a larger scale can be done by categorizing each place as a one of the four regions in the US (West, Midwest, Northeast, South) and plotting different visuals like bar charts, histograms, and boxplots. Futhermore, error bars can be added because the confidence intervals for binge drinking exists in the data. Since there is so much data, an interactive visual can be used for mapping and labeling the localities so that they pop up when hovered over. This will allow for understanding what is happening with drinking on the local level. Additionally, this gives way to allow for layering of other important features, for example adding information about where universities are located. These visualizations will aid in the research question as they are able to identify any trends relating to geography and binge drinking.</p>
+</section>
+<section id="missing-value-analysis" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="missing-value-analysis"><span class="header-section-number">2.3</span> Missing value analysis</h2>
 
 
 </section>
