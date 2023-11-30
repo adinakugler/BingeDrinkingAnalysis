@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>YOUR PROJECT TITLE - 2&nbsp; Data</title>
+<title>Binge Drinking Analysis - 2&nbsp; Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -89,9 +123,9 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">YOUR PROJECT TITLE</a> 
+      <a href="./">Binge Drinking Analysis</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/adinakugler/BingeDrinkingAnalysis/tree/main" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -143,9 +177,10 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description"><span class="header-section-number">2.1</span> Description</a></li>
-  <li><a href="#missing-value-analysis" id="toc-missing-value-analysis" class="nav-link" data-scroll-target="#missing-value-analysis"><span class="header-section-number">2.2</span> Missing value analysis</a></li>
+  <li><a href="#research-plan" id="toc-research-plan" class="nav-link" data-scroll-target="#research-plan"><span class="header-section-number">2.2</span> Research plan</a></li>
+  <li><a href="#missing-value-analysis" id="toc-missing-value-analysis" class="nav-link" data-scroll-target="#missing-value-analysis"><span class="header-section-number">2.3</span> Missing value analysis</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME/edit/main/data.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/adinakugler/BingeDrinkingAnalysis/tree/main/edit/main/data.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/adinakugler/BingeDrinkingAnalysis/tree/main/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -169,9 +204,192 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="description" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="description"><span class="header-section-number">2.1</span> Description</h2>
+<p>The data, <em>500 Cities: Binge drinking among adults aged &gt;= 18,</em> is from the Center of Disease Control and Prevention (CDC), which is a United States federal agency within Health and Human Services. It specifically represents the percentage of adults that partake in binge drinking in 500 US cities. While it is a study of 500 cities, there are more than just 500 unique identifiers in the data. This is because, each city is divided into a more specific Census Tract if relevant, so there could be multiple rows representing different parts of the same city, however there will not be any overlap in boundries. There are over 28,000 unique areas in the data. The sources of data used were based on government data collection methods, including the Behavioral Risk Factor Surveillance System in 2017, 2010 Census, and American Community Survey 2013-2017 estimates. This data specifically uses the Behavorial Risk Factor Surveillance System. Each of these estimates are federally funded projects used to gather data on the US population. Specifically, these use exact measures for locations that can be uniform and therefore combined to form the dataset. Each method of collection occurs at a relatively frequent basis. The specific project for the data is the 500 Cities project in 2017. The binge drinking data is just a subset of this larger dataset that was compiled by the CDC. The data provides estimates for crude or age-adjusted percentage of adults that partake in binge drinking. The percentage is based on the locality population size. The data is not updated until a more recent study is performed.</p>
+<p>The data is in tabular form, where each row’s unique identifier is the Unique Id, which is the census level region. Other columns include geographic columns like State, City, type of geological indicator (City or Tract), and GeoLocation. Many columns are not useful since it a subset of a larger dataset. These include Year, DataSource, Category, as well as some others. These are all the same for all rows as it was the way they could be filtered from the original data. For example, the year for all the data is 2017. The main column of data that will be the focus is the DataValue column. This is the percent of the population that partakes in binge drinking. The Data_Value_Type column indicates where the data value is the crude prevalence or age adjusted prevalence. The crude prevalence is used in most of the rows. The prevalence confidence interval is also given as it is an estimate. The population for each area is also available in the data set. There are 29,006 rows. There are 24 columns, yet about half will be removed due to repeated information. There is a column that notes that the data is suppressed for the prevalence due to the population being too small to make an estimate.</p>
+<p>The data source is <a href="https://data.cdc.gov/500-Cities-Places/500-Cities-Binge-drinking-among-adults-aged-18-yea/gqat-rcqz" class="uri">https://data.cdc.gov/500-Cities-Places/500-Cities-Binge-drinking-among-adults-aged-18-yea/gqat-rcqz</a></p>
 </section>
-<section id="missing-value-analysis" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="missing-value-analysis"><span class="header-section-number">2.2</span> Missing value analysis</h2>
+<section id="research-plan" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="research-plan"><span class="header-section-number">2.2</span> Research plan</h2>
+<p>The research plan is to visualize the prevalence of binge drinking. To do this, geographical data can be used for this visualization. Prevalence of adults that binge drink will be the target variable on the visualizations. Since there is a large amount of geographical data, including mapping of the prevalence can be done. A map colored with a continuous color pallet based on prevalence of binge drinking would be an important visualization to identify nationwide trends. This map can be done both on the local level and on a statewide level. The data is able to create these maps because geographic data is present as well as exact coordinates for each row. This will allow the research and exploration to be completed in a mapping format. Additionally, trends on a larger scale can be done by categorizing each place as a one of the four regions in the US (West, Midwest, Northeast, South) and plotting different visuals like bar charts, histograms, and boxplots. Futhermore, error bars can be added because the confidence intervals for binge drinking exists in the data. Since there is so much data, an interactive visual can be used for mapping and labeling the localities so that they pop up when hovered over. This will allow for understanding what is happening with drinking on the local level. Additionally, this gives way to allow for layering of other important features, for example adding information about where universities are located. These visualizations will aid in the research question as they are able to identify any trends relating to geography and binge drinking. A graphs comparing population sizes and binge drinking percentages can be made to identify if the hypothesis about small towns having higher rates of drinking is accurate. Additionally layering climate related data on the map with binge drinking can identify correlations with rates of heavy drinking and worse temperatures.</p>
+</section>
+<section id="missing-value-analysis" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="missing-value-analysis"><span class="header-section-number">2.3</span> Missing value analysis</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(redav)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>drink <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">'500_Cities__Binge_drinking_among_adults_aged___18_years.csv'</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#renaming columns to Letters</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>drink_rename <span class="ot">&lt;-</span> drink <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="st">'A'</span><span class="ot">=</span>Year,<span class="st">'B'</span><span class="ot">=</span>StateAbbr,<span class="st">'C'</span><span class="ot">=</span>StateDesc,<span class="st">'D'</span><span class="ot">=</span>CityName,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'E'</span><span class="ot">=</span>GeographicLevel,<span class="st">'F'</span><span class="ot">=</span>DataSource,<span class="st">'G'</span><span class="ot">=</span>Category,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'H'</span><span class="ot">=</span>UniqueID,<span class="st">'I'</span><span class="ot">=</span>Measure,<span class="st">'J'</span><span class="ot">=</span>Data_Value_Unit,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'K'</span><span class="ot">=</span>DataValueTypeID,<span class="st">'L'</span><span class="ot">=</span>Data_Value_Type,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'M'</span><span class="ot">=</span>Data_Value,<span class="st">'N'</span><span class="ot">=</span>Low_Confidence_Limit,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'O'</span><span class="ot">=</span>High_Confidence_Limit,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'P'</span><span class="ot">=</span>Data_Value_Footnote_Symbol,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'Q'</span><span class="ot">=</span>Data_Value_Footnote,<span class="st">'R'</span><span class="ot">=</span>PopulationCount,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'S'</span><span class="ot">=</span>GeoLocation,<span class="st">'T'</span><span class="ot">=</span>CategoryID,<span class="st">'U'</span><span class="ot">=</span>MeasureId,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'V'</span><span class="ot">=</span>CityFIPS,<span class="st">'W'</span><span class="ot">=</span>TractFIPS,<span class="st">'X'</span><span class="ot">=</span>Short_Question_Text)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_missing</span>(drink_rename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="data_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Missing values exist in the data set and are in 3 main patterns. Tract FIPS and City FIPS are missing together in rare occasions and Tract FIPS is missing in a small percent of rows. Data value and their respective confidicent intervals are missing together.</p>
+<p>Similar trends can be seen when looking at a heatmap of the missng values in the dataset.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">vis_miss</span>(drink)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="data_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can see that for 3% of the data, we have missing values for the binge drinking percentage alongside their respective confidence intervals. Sub-setting the data shows us the reason.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(drink <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(Data_Value)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Year StateAbbr     StateDesc   CityName GeographicLevel DataSource
+1 2017        NC North Carolin Greensboro    Census Tract      BRFSS
+2 2017        AL       Alabama Huntsville    Census Tract      BRFSS
+3 2017        AL       Alabama Tuscaloosa    Census Tract      BRFSS
+4 2017        AL       Alabama Tuscaloosa    Census Tract      BRFSS
+5 2017        AZ       Arizona    Gilbert    Census Tract      BRFSS
+6 2017        AZ       Arizona   Avondale    Census Tract      BRFSS
+             Category            UniqueID
+1 Unhealthy Behaviors 3728000-37081015600
+2 Unhealthy Behaviors 0137000-01089011100
+3 Unhealthy Behaviors 0177256-01125010103
+4 Unhealthy Behaviors 0177256-01125012503
+5 Unhealthy Behaviors 0427400-04013422638
+6 Unhealthy Behaviors 0404720-04013723304
+                                      Measure Data_Value_Unit DataValueTypeID
+1 Binge drinking among adults aged &gt;=18 Years               %          CrdPrv
+2 Binge drinking among adults aged &gt;=18 Years               %          CrdPrv
+3 Binge drinking among adults aged &gt;=18 Years               %          CrdPrv
+4 Binge drinking among adults aged &gt;=18 Years               %          CrdPrv
+5 Binge drinking among adults aged &gt;=18 Years               %          CrdPrv
+6 Binge drinking among adults aged &gt;=18 Years               %          CrdPrv
+   Data_Value_Type Data_Value Low_Confidence_Limit High_Confidence_Limit
+1 Crude prevalence         NA                   NA                    NA
+2 Crude prevalence         NA                   NA                    NA
+3 Crude prevalence         NA                   NA                    NA
+4 Crude prevalence         NA                   NA                    NA
+5 Crude prevalence         NA                   NA                    NA
+6 Crude prevalence         NA                   NA                    NA
+  Data_Value_Footnote_Symbol                              Data_Value_Footnote
+1                          * Estimates suppressed for population less than 50
+2                          * Estimates suppressed for population less than 50
+3                          * Estimates suppressed for population less than 50
+4                          * Estimates suppressed for population less than 50
+5                          * Estimates suppressed for population less than 50
+6                          * Estimates suppressed for population less than 50
+  PopulationCount                     GeoLocation CategoryID MeasureId CityFIPS
+1               1 (36.1909973664, -79.7508893589)     UNHBEH     BINGE  3728000
+2               4  (34.678659986, -86.6942482318)     UNHBEH     BINGE   137000
+3              13 (33.4037171009, -87.5950158306)     UNHBEH     BINGE   177256
+4               5 (33.1448113269, -87.5293125395)     UNHBEH     BINGE   177256
+5               4 (33.3818684313, -111.716815189)     UNHBEH     BINGE   427400
+6              13 (33.3198366954, -112.330920794)     UNHBEH     BINGE   404720
+    TractFIPS Short_Question_Text
+1 37081015600      Binge Drinking
+2  1089011100      Binge Drinking
+3  1125010103      Binge Drinking
+4  1125012503      Binge Drinking
+5  4013422638      Binge Drinking
+6  4013723304      Binge Drinking</code></pre>
+</div>
+</div>
+<p>We can see that every single element that has missing values in the data value has “Estimates suppressed for population less than 50” in its footnote, making the missingness type MAR, since it depends on the population count column.</p>
+<p>A similar trend arises for the TractFIPS column.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> drink <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(TractFIPS))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Year StateAbbr  StateDesc  CityName GeographicLevel DataSource
+1 2017        CA California     Indio            City      BRFSS
+2 2017        CA California   Antioch            City      BRFSS
+3 2017        CA California     Chino            City      BRFSS
+4 2017        CA California Fullerton            City      BRFSS
+5 2017        CA California    Merced            City      BRFSS
+6 2017        CA California    Orange            City      BRFSS
+             Category UniqueID                                     Measure
+1 Unhealthy Behaviors  0636448 Binge drinking among adults aged &gt;=18 Years
+2 Unhealthy Behaviors  0602252 Binge drinking among adults aged &gt;=18 Years
+3 Unhealthy Behaviors  0613210 Binge drinking among adults aged &gt;=18 Years
+4 Unhealthy Behaviors  0628000 Binge drinking among adults aged &gt;=18 Years
+5 Unhealthy Behaviors  0646898 Binge drinking among adults aged &gt;=18 Years
+6 Unhealthy Behaviors  0653980 Binge drinking among adults aged &gt;=18 Years
+  Data_Value_Unit DataValueTypeID         Data_Value_Type Data_Value
+1               %       AgeAdjPrv Age-adjusted prevalence       17.7
+2               %          CrdPrv        Crude prevalence       18.4
+3               %          CrdPrv        Crude prevalence       19.8
+4               %       AgeAdjPrv Age-adjusted prevalence       18.4
+5               %          CrdPrv        Crude prevalence       17.0
+6               %          CrdPrv        Crude prevalence       21.0
+  Low_Confidence_Limit High_Confidence_Limit Data_Value_Footnote_Symbol
+1                 17.5                  17.9                           
+2                 18.3                  18.5                           
+3                 19.6                  20.0                           
+4                 18.3                  18.5                           
+5                 16.8                  17.2                           
+6                 20.8                  21.1                           
+  Data_Value_Footnote PopulationCount                     GeoLocation
+1                               76036 (33.7298067837, -116.237258141)
+2                              102372 (37.9777042922, -121.796606971)
+3                               77983  (33.983588126, -117.665296584)
+4                              135161 (33.8840378013, -117.927850895)
+5                               78958 (37.3055863217, -120.477710571)
+6                              136416   (33.8046419567, -117.8231855)
+  CategoryID MeasureId CityFIPS TractFIPS Short_Question_Text
+1     UNHBEH     BINGE   636448        NA      Binge Drinking
+2     UNHBEH     BINGE   602252        NA      Binge Drinking
+3     UNHBEH     BINGE   613210        NA      Binge Drinking
+4     UNHBEH     BINGE   628000        NA      Binge Drinking
+5     UNHBEH     BINGE   646898        NA      Binge Drinking
+6     UNHBEH     BINGE   653980        NA      Binge Drinking</code></pre>
+</div>
+</div>
+<p>Here we can also see that all the missing data corresponds to cities instead of census tracts, with the addition of two entries for the whole of the United States.</p>
 
 
 </section>
