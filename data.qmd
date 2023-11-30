@@ -10,24 +10,43 @@ The data source is <https://data.cdc.gov/500-Cities-Places/500-Cities-Binge-drin
 
 ## Research plan
 
-The research plan is to visualize the prevalence of binge drinking. To do this, geographical data can be used for this visualization. Prevalence of adults that binge drink will be the target variable on the visualizations. Since there is a large amount of geographical data, including mapping of the prevalence can be done. A map colored with a continuous color pallet based on prevalence of binge drinking would be an important visualization to identify nationwide trends. This map can be done both on the local level and on a statewide level. The data is able to create these maps because geographic data is present as well as exact coordinates for each row. This will allow the research and exploration to be completed in a mapping format. Additionally, trends on a larger scale can be done by categorizing each place as a one of the four regions in the US (West, Midwest, Northeast, South) and plotting different visuals like bar charts, histograms, and boxplots. Futhermore, error bars can be added because the confidence intervals for binge drinking exists in the data. Since there is so much data, an interactive visual can be used for mapping and labeling the localities so that they pop up when hovered over. This will allow for understanding what is happening with drinking on the local level. Additionally, this gives way to allow for layering of other important features, for example adding information about where universities are located. These visualizations will aid in the research question as they are able to identify any trends relating to geography and binge drinking.
+The research plan is to visualize the prevalence of binge drinking. To do this, geographical data can be used for this visualization. Prevalence of adults that binge drink will be the target variable on the visualizations. Since there is a large amount of geographical data, including mapping of the prevalence can be done. A map colored with a continuous color pallet based on prevalence of binge drinking would be an important visualization to identify nationwide trends. This map can be done both on the local level and on a statewide level. The data is able to create these maps because geographic data is present as well as exact coordinates for each row. This will allow the research and exploration to be completed in a mapping format. Additionally, trends on a larger scale can be done by categorizing each place as a one of the four regions in the US (West, Midwest, Northeast, South) and plotting different visuals like bar charts, histograms, and boxplots. Futhermore, error bars can be added because the confidence intervals for binge drinking exists in the data. Since there is so much data, an interactive visual can be used for mapping and labeling the localities so that they pop up when hovered over. This will allow for understanding what is happening with drinking on the local level. Additionally, this gives way to allow for layering of other important features, for example adding information about where universities are located. These visualizations will aid in the research question as they are able to identify any trends relating to geography and binge drinking. A graphs comparing population sizes and binge drinking percentages can be made to identify if the hypothesis about small towns having higher rates of drinking is accurate. Additionally layering climate related data on the map with binge drinking can identify correlations with rates of heavy drinking and worse temperatures.
 
 ## Missing value analysis
+```{r}
+library(dplyr)
+library(redav)
+drink = read.csv('500_Cities__Binge_drinking_among_adults_aged___18_years.csv')
+#renaming columns to Letters
+drink_rename <- drink |> rename('A'=Year,'B'=StateAbbr,'C'=StateDesc,'D'=CityName,
+                              'E'=GeographicLevel,'F'=DataSource,'G'=Category,
+                              'H'=UniqueID,'I'=Measure,'J'=Data_Value_Unit,
+                              'K'=DataValueTypeID,'L'=Data_Value_Type,
+                              'M'=Data_Value,'N'=Low_Confidence_Limit,
+                              'O'=High_Confidence_Limit,
+                              'P'=Data_Value_Footnote_Symbol,
+                              'Q'=Data_Value_Footnote,'R'=PopulationCount,
+                              'S'=GeoLocation,'T'=CategoryID,'U'=MeasureId,
+                              'V'=CityFIPS,'W'=TractFIPS,'X'=Short_Question_Text)
+plot_missing(drink_rename)
+```
+Missing values exist in the data set and are in 3 main patterns. Tract FIPS and City FIPS are missing together in rare occasions and Tract FIPS is missing in a small percent of rows. Data value and their respective confidicent intervals are missing together. 
+
+Similar trends can be seen when looking at a heatmap of the missng values in the dataset.
 ```{r}
 library(ggplot2)
 library(naniar)
 
-
-drink = read.csv('500_Cities__Binge_drinking_among_adults_aged___18_years.csv')
 vis_miss(drink)
 ```
 
 We can see that for 3% of the data, we have missing values for the binge drinking percentage alongside their respective confidence intervals. Sub-setting the data shows us the reason.
 
+
 ```{r}
 library(dplyr)
 
-drink %>% filter(is.na(Data_Value))
+head(drink %>% filter(is.na(Data_Value)))
 ```
 
 We can see that every single element that has missing values in the data value has "Estimates suppressed for population less than 50" in its footnote, making the missingness type MAR, since it depends on the population count column. 
@@ -36,6 +55,9 @@ We can see that every single element that has missing values in the data value h
 A similar trend arises for the TractFIPS column.
 ```{r}
 x = drink %>% filter(is.na(TractFIPS))
-
+head(x)
 ```
-Here we can also see that all the missing data corresponds to cities instead of census tracts, with the addition of two entries for the whole of the united states. 
+Here we can also see that all the missing data corresponds to cities instead of census tracts, with the addition of two entries for the whole of the United States. 
+
+
+
