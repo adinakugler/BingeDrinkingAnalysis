@@ -1,1 +1,251 @@
 # Results
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(parcoords)
+library(devtools)
+library(GGally)
+library(devtools)
+library(Lock5withR)
+library(parcoords)
+library(choroplethr)
+library(choroplethrMaps)
+library(ggridges)
+```
+
+
+```{r}
+drink <- read.csv('500_Cities__Binge_drinking_among_adults_aged___18_years.csv')
+# dropping the columns that are the same
+drink <- drink |> select(-c(Year, DataSource, Category, Measure, 
+                            Data_Value_Unit, Data_Value_Type,CategoryID,MeasureId,
+                            Short_Question_Text, Data_Value_Footnote_Symbol,
+                            Data_Value_Footnote)) |> 
+  rename(BingeDrinkingPrv = Data_Value, PrvType = DataValueTypeID)
+
+drink <- drink |> drop_na(BingeDrinkingPrv)
+
+# reading in data to merge in
+region = read.csv('us census bureau regions and divisions.csv')
+age = read.csv('sc-est2017-agesex-civ.csv')
+
+head(drink)
+head(region)
+```
+
+
+```{r}
+#Cleaning
+
+head(region)
+
+drink$StateDesc[drink$StateDesc == 'District of C'] <- 'District of Columbia'
+drink$StateDesc[drink$StateDesc == 'North Carolin'] <- 'North Carolina'
+drink$StateDesc[drink$StateDesc == 'South Carolin'] <- 'South Carolina'
+
+
+age$SEX[age$SEX == 0] <- 'Total'
+age$SEX[age$SEX == 1] <- 'Male'
+age$SEX[age$SEX == 2] <- 'Female'
+
+age$Total = age$AGE * age$POPEST2017_CIV
+
+age2 = filter(age, STATE != 0)
+age2 = filter(age2, AGE != 999)
+totals = filter(age, AGE == 999)
+age2 = filter(age2, SEX == 'Total')
+age3 =  age2 %>% group_by(NAME) %>% summarise(sum_age = sum(Total))
+totals_grp = totals %>% group_by(NAME) %>% summarise(sums = max(POPEST2017_CIV))
+combined_ages = merge(age3,totals_grp, by.x = 'NAME', by.y = 'NAME')
+
+combined_ages$avg = combined_ages$sum_age / combined_ages$sums
+combined = merge(drink,region, by.x = 'StateAbbr', by.y = 'State.Code')
+ages_drink = merge(combined,combined_ages, by.x = 'StateDesc', by.y = 'NAME')
+```
+
+```{r}
+# creating dataset by state
+states <-  ages_drink|>
+  group_by(State)|>
+  summarise(total_pop = sum(PopulationCount), 
+            avg_age = max(avg), 
+            meanPrv = mean(BingeDrinkingPrv), 
+            Region  = max(Region))
+```
+
+
+
+# Parallel Coordinates Plot
+```{r}
+parcoords(states, rownames = F 
+    , brushMode = "1D-axes"
+    , reorderable = T
+    , queue = T    
+    , width = 1000
+    , height = 450
+    )  
+```
+
+## Static
+```{r}
+ggparcoord(states, groupColumn = 5, columns = 1:4)
+```
+
+
+# Cleveland Dot Plot
+```{r}
+ggplot(states, aes(x = meanPrv, y = fct_reorder(State, meanPrv))) +
+  geom_point(color = "blue") +
+  facet_grid(fct_reorder(Region, meanPrv, .desc=TRUE) ~ ., scales = "free_y", space = "free_y") +
+  ggtitle("Avg. Binge Drinking Prevalence per US State") +
+  ylab("") +
+  xlab("Average Binge Drinking Prevalence Percentage")
+  theme_linedraw()
+```
+
+# Histograms
+```{r}
+# By state
+ggplot(states, aes(x = meanPrv)) +
+  geom_histogram(aes(y = after_stat(density)), color = "blue", fill = "lightblue", binwidth = 0.5) +
+  geom_function(fun = dnorm, col = "red",
+                  args = list(mean(states_combined$meanPrv), sd(states_combined$meanPrv)),
+                  lwd = 1) +
+  geom_density(col="blue")+
+  labs(title = "Normal curve overlaid")
+```
+
+```{r}
+# all data
+ggplot(combined, aes(x = BingeDrinkingPrv)) +
+  geom_histogram(aes(y = after_stat(density)), color = "blue", 
+                 fill = "lightblue", binwidth = 0.5) +
+  geom_function(fun = dnorm, col = "red",
+                args = list(mean(combined$BingeDrinkingPrv), sd(combined$BingeDrinkingPrv)),
+                lwd = 1) +
+  geom_density(col="blue")+
+  labs(title = "Distribution of Binge Drinking")
+```
+
+```{r}
+# states faceted
+ggplot(states, aes(x = meanPrv)) +
+  geom_histogram(aes(y = after_stat(density)), color = "blue", 
+                 fill = "lightblue", binwidth = 0.5) +
+  geom_function(fun = dnorm, col = "red",
+                args = list(mean(states$meanPrv), 
+                            sd(states$meanPrv)),
+                lwd = 1) +
+  geom_density(col="blue")+
+  labs(title = "Normal curve overlaid") + facet_wrap(vars(Region))
+```
+
+```{r}
+# all faceted
+ggplot(combined, aes(x = BingeDrinkingPrv)) +
+  geom_histogram(aes(y = after_stat(density)), color = "lightsteelblue4",
+                 fill = "lightskyblue1", binwidth = 0.5) +
+  geom_function(fun = dnorm, col = "mediumvioletred",
+                args = list(mean(combined$BingeDrinkingPrv), sd(combined$BingeDrinkingPrv)),
+                lwd = 1) +
+  geom_density(col="midnightblue")+
+  labs(title = "Distribution of Binge Drinking") + facet_wrap(vars(Region))
+```
+```{r}
+Midwest <- states|>filter(Region=='Midwest')|>select(meanPrv)
+shapiro.test(Midwest$meanPrv)
+Northeast <- states|>filter(Region=='Northeast')|>select(meanPrv)
+shapiro.test(Northeast$meanPrv)
+South <- states|>filter(Region=='South')|>select(meanPrv)
+shapiro.test(South$meanPrv)
+West <- states|>filter(Region=='West')|>select(meanPrv)
+shapiro.test(West$meanPrv)
+```
+
+# Choropleth
+```{r}
+# binge drinking choropleth
+df_chlor <- states|>select(-Region)|>
+  transmute(region = tolower(`State`), value = meanPrv)
+
+state_choropleth(df_chlor,
+                 title = "State Binge Drinking Prevalence",
+                 legend = "Average Percent of Binge Drinking")
+```
+
+```{r}
+# age choropleth
+df_chlor2 <- states|>select(-Region)|>
+  transmute(region = tolower(`State`), value = avg_age)
+
+state_choropleth(df_chlor2,
+                 title = "Average Age per State",
+                 legend = "Average Age in Years")
+```
+
+```{r}
+# population choropleth
+df_chlor3 <- states|>select(-Region)|>
+  transmute(region = tolower(`State`), value = total_pop)
+
+state_choropleth(df_chlor3,
+                 title = "Total Population per State",
+                 legend = "Total Population")
+```
+
+# Boxplots
+```{r}
+# states
+ggplot(states, aes(x=meanPrv, y=Region))+
+  geom_boxplot()+
+  geom_density_ridges(alpha = 0.5)
+
+
+### outlier on left is utah - mormons
+```
+
+```{r}
+# all
+ggplot(combined, aes(x=BingeDrinkingPrv, y=Region))+
+  geom_boxplot()+
+  geom_density_ridges(alpha = 0.5)
+```
+
+
+# Heatmaps
+
+```{r}
+ggplot(states, aes(meanPrv, total_pop)) + 
+  geom_hex(bins=8) +
+  scale_fill_gradient(low = "grey", high = "purple") +  
+  theme_classic(18) +
+  ggtitle("Heatmap of Total Population and Mean Prevalence")
+```
+
+```{r}
+ggplot(states, aes(meanPrv, avg_age)) + 
+  geom_hex(bins=8) +
+  scale_fill_gradient(low = "grey", high = "purple") +  
+  theme_classic(18) +
+  ggtitle("Heatmap of Mean Age and Binge Drinking Prevalence")
+```
+
+
+# Contour Lines
+```{r}
+ggplot(states, aes(meanPrv, total_pop)) +
+  geom_density_2d(bins=5, linewidth=1) +
+  geom_point() +
+  ggtitle("Combined with scatterplot")
+```
+
+```{r}
+ggplot(states, aes(meanPrv, avg_age)) +
+  geom_density_2d(bins=5, linewidth=1) +
+  geom_point() +
+  ggtitle("Combined with scatterplot")
+```
+
+
