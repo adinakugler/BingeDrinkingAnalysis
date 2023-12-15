@@ -30,16 +30,11 @@ drink <- drink |> drop_na(BingeDrinkingPrv)
 # reading in data to merge in
 region = read.csv('us census bureau regions and divisions.csv')
 age = read.csv('sc-est2017-agesex-civ.csv')
-
-head(drink)
-head(region)
 ```
 
 
 ```{r}
 #Cleaning
-
-head(region)
 
 drink$StateDesc[drink$StateDesc == 'District of C'] <- 'District of Columbia'
 drink$StateDesc[drink$StateDesc == 'North Carolin'] <- 'North Carolina'
@@ -69,78 +64,32 @@ ages_drink = merge(combined,combined_ages, by.x = 'StateDesc', by.y = 'NAME')
 # creating dataset by state
 states <-  ages_drink|>
   group_by(State)|>
-  summarise(total_pop = sum(PopulationCount), 
+  summarise(total_pop = sum(PopulationCount)/1000000, 
             avg_age = max(avg), 
             meanPrv = mean(BingeDrinkingPrv), 
             Region  = max(Region))
+states <- states |> mutate(Region = fct_reorder(Region, meanPrv)) 
+combined <- combined |> mutate(Region = factor(Region))
+combined <- combined |> mutate(Region = fct_reorder(Region, BingeDrinkingPrv))
+
 ```
 
-
-
-# Parallel Coordinates Plot
-```{r}
-parcoords(states, rownames = F 
-    , brushMode = "1D-axes"
-    , reorderable = T
-    , queue = T    
-    , width = 1000
-    , height = 450
-    )  
-```
-
-## Static
-```{r}
-ggparcoord(states, groupColumn = 5, columns = 1:4)
-```
-
-
-# Cleveland Dot Plot
-```{r}
-ggplot(states, aes(x = meanPrv, y = fct_reorder(State, meanPrv))) +
-  geom_point(color = "blue") +
-  facet_grid(fct_reorder(Region, meanPrv, .desc=TRUE) ~ ., scales = "free_y", space = "free_y") +
-  ggtitle("Avg. Binge Drinking Prevalence per US State") +
-  ylab("") +
-  xlab("Average Binge Drinking Prevalence Percentage")
-  theme_linedraw()
-```
-
-# Histograms
-```{r}
-# By state
-ggplot(states, aes(x = meanPrv)) +
-  geom_histogram(aes(y = after_stat(density)), color = "blue", fill = "lightblue", binwidth = 0.5) +
-  geom_function(fun = dnorm, col = "red",
-                  args = list(mean(states_combined$meanPrv), sd(states_combined$meanPrv)),
-                  lwd = 1) +
-  geom_density(col="blue")+
-  labs(title = "Normal curve overlaid")
-```
-
+## Distribution of Data
+### Histograms
 ```{r}
 # all data
 ggplot(combined, aes(x = BingeDrinkingPrv)) +
-  geom_histogram(aes(y = after_stat(density)), color = "blue", 
-                 fill = "lightblue", binwidth = 0.5) +
-  geom_function(fun = dnorm, col = "red",
+  geom_histogram(aes(y = after_stat(density)), color = "lightsteelblue4",
+                 fill = "lightskyblue1", binwidth = 0.5) +
+  geom_function(fun = dnorm, col = "mediumvioletred",
                 args = list(mean(combined$BingeDrinkingPrv), sd(combined$BingeDrinkingPrv)),
                 lwd = 1) +
-  geom_density(col="blue")+
-  labs(title = "Distribution of Binge Drinking")
+  geom_density(col="saddlebrown", lwd = 1)+
+  labs(title = "Distribution of Binge Drinking Across US Cities and Localities",
+       x="Prevalence of Binge Drinking (%)",
+       y= "Density")
 ```
-
-```{r}
-# states faceted
-ggplot(states, aes(x = meanPrv)) +
-  geom_histogram(aes(y = after_stat(density)), color = "blue", 
-                 fill = "lightblue", binwidth = 0.5) +
-  geom_function(fun = dnorm, col = "red",
-                args = list(mean(states$meanPrv), 
-                            sd(states$meanPrv)),
-                lwd = 1) +
-  geom_density(col="blue")+
-  labs(title = "Normal curve overlaid") + facet_wrap(vars(Region))
-```
+We begin by plotting a histogram of the entirety of the data and overlaying a normal density curve on top of it. The data looks roughly normal as the density line (pink) is similar to the normal distribution line (brown).
 
 ```{r}
 # all faceted
@@ -148,11 +97,17 @@ ggplot(combined, aes(x = BingeDrinkingPrv)) +
   geom_histogram(aes(y = after_stat(density)), color = "lightsteelblue4",
                  fill = "lightskyblue1", binwidth = 0.5) +
   geom_function(fun = dnorm, col = "mediumvioletred",
-                args = list(mean(combined$BingeDrinkingPrv), sd(combined$BingeDrinkingPrv)),
+                args = list(mean(combined$BingeDrinkingPrv), 
+                            sd(combined$BingeDrinkingPrv)),
                 lwd = 1) +
-  geom_density(col="midnightblue")+
-  labs(title = "Distribution of Binge Drinking") + facet_wrap(vars(Region))
+  geom_density(col="saddlebrown", lwd = 1)+
+  labs(title = "Distribution of Binge Drinking Across US Cities and Localities by Region", 
+       x="Prevalence of Binge Drinking (%)",
+       y= "Density") + facet_wrap(vars(Region))
 ```
+To further analyze the differences in spread of each region, we plot density histograms for binge drinking and compare them to normal distributions (pink). In this graph, we see that all the regions have distributions that are approximately normal, however the 
+West is a little narrower and the Northeast seems to be right skewed. To further test this theory, we conduct a schapiro-wilk test for each region.
+
 ```{r}
 Midwest <- states|>filter(Region=='Midwest')|>select(meanPrv)
 shapiro.test(Midwest$meanPrv)
@@ -163,8 +118,113 @@ shapiro.test(South$meanPrv)
 West <- states|>filter(Region=='West')|>select(meanPrv)
 shapiro.test(West$meanPrv)
 ```
+The shapiro-wilks test was tested on the mean prevalence for each state for each region. This is because there was too much data to test normality based on counties. As we can see, we can not reject the assumption that these distributions are normal since their p-values lie above the 0.05 threshhold. It should be noted however that the northeast was close, and would have been rejected under a higher significance level (10%), but for our current parameters, we will say that all our distributions are normal or approximately normal.
 
-# Choropleth
+```{r}
+# By state
+ggplot(states, aes(x = meanPrv)) +
+  geom_histogram(aes(y = after_stat(density)), color = "lightsteelblue4",
+                 fill = "lightskyblue1", binwidth = 0.5) +
+  geom_function(fun = dnorm, col = "mediumvioletred",
+                  args = list(mean(states$meanPrv), sd(states$meanPrv)),
+                  lwd = 1) +
+  geom_density(col="saddlebrown", lwd = 1)+
+  labs(title = "Distribution of Mean Binge Drinking Percentage of All States",
+       x="Mean Prevalence of Binge Drinking (%)",
+       y= "Density")
+```
+Plotting mean prevalence of each State gives a roughly normal distribution but with the existence of gaps and multiple different peaks puts this hypothesis in question. So we test this using a schapiro-wilk test.
+
+```{r}
+shapiro.test(states$meanPrv)
+```
+The null hypothesis can not be rejected. Therefore the normality assumption of the data can be given for mean prevalence of binge drinking per state. This makes sense since the expected value of means is meant to converge to a normal distribution
+
+### Boxplots
+```{r}
+# all
+ggplot(combined, aes(x=BingeDrinkingPrv, y=Region, fill=Region))+
+  geom_boxplot()+
+  geom_density_ridges(alpha = 0.5) + scale_fill_brewer(palette="Set2") +
+  labs(title = "Distribution of Binge Drinking Across US Cities and Localities by Region",
+       x="Prevalence of Binge Drinking (%)")
+```
+Since we are interested in the distribution of binge drinking by region, we first facet and draw ridgeline boxplots. We can see that the top 3 regions have similar peaking modes, but the midwest seems to be slightly shifted to the right. We can also see that all the regions have a wide spread with a significant amount of outliers.
+
+## Cleveland Dot Plot
+```{r, fig.height=6}
+ggplot(states, aes(x = meanPrv, y = fct_reorder(State, meanPrv))) +
+  geom_point(aes(colour = Region)) +
+  facet_grid(fct_reorder(Region, meanPrv, .desc=TRUE) ~ ., scales = "free_y", space = "free_y") +
+  ggtitle("Avg. Binge Drinking Prevalence per US State") +
+  ylab("") +
+  xlab("Average Binge Drinking Prevalence Percentage")+
+  theme_linedraw() + 
+  scale_colour_brewer(palette = "Set2", 
+                      limits = c("South", "Northeast", "West", "Midwest"))+
+  theme(legend.position = "none")
+```
+Here we show a Cleveland Dot Plot faceted by region. Looking at each individual graph shows us ranking of binge drinking prevalence across the states. Looking across graphs, we can see a slight ordering that goes south- northeast- west- midwest. We can also see some outliers in the data such as Utah, which makes sense since there exists a large population of mormons in the area and they dont not drink alcohol as part of their religion.
+
+## Continuous Variable Comparisons 
+### Heatmaps
+```{r}
+ggplot(states, aes(meanPrv, total_pop)) + 
+  geom_hex(bins=8) +
+  scale_fill_distiller(palette = "Blues", direction=1) +  
+  theme_classic(18) +
+  ggtitle("Total Population and Mean Prevalence per State") + 
+  labs(x= "Mean Prevalence of Binge Drinking (%)",
+       y= "Total Population (Millions)")
+```
+
+```{r}
+ggplot(states, aes(meanPrv, avg_age)) + 
+  geom_hex(bins=8) +
+  scale_fill_distiller(palette = "Blues", direction=1) + 
+  theme_classic(18) +
+  ggtitle("Average Age and Mean Prevalence per State") + 
+  labs(x= "Mean Prevalence of Binge Drinking (%)",
+       y= "Age")
+```
+
+### Contour Lines
+```{r}
+ggplot(states, aes(meanPrv, total_pop)) +
+  geom_density_2d(bins=5, linewidth=1, color="royalblue1") +
+  geom_point() +
+  ggtitle("Contour Line and Scatterplot of Population and Binge Drinking") + 
+  labs(x= "Mean Prevalence of Binge Drinking (%)",
+       y= "Total Population (Millions)") 
+```
+
+```{r}
+ggplot(states, aes(meanPrv, avg_age)) +
+  geom_density_2d(bins=5, linewidth=1, color="royalblue1") +
+  geom_point() +
+  ggtitle("Contour Line and Scatterplot of Age and Binge Drinking") + 
+  labs(x= "Mean Prevalence of Binge Drinking (%)",
+       y= "Age") 
+```
+
+## Parallel Coordinates Plot
+
+```{r, fig.width=25, fig.height=15}
+cus_states = states
+
+colnames(cus_states)[4] = 'Binge Drinking Prevalence'
+colnames(cus_states)[2] = 'Total Populationm (Millions)'
+colnames(cus_states)[3] = 'Age'
+
+parcoords(cus_states, rownames = F 
+    , brushMode = "1D-axes"
+    , reorderable = T
+    , queue = T    
+    )  
+```
+Displayed is an interactive parallel coordinates plot with the states, regions, prevalence, population and age. Highlighting specific parts of the graph such as the slider from the top of mean prevalence till 20, we can see that the majority of those lines come from the Midwest region. We would have liked to include splining, but the interactive parcoords doesn't support this feature. but the information gained by interactively subsetting the data was valuable enough that we thought to include it.
+
+## Choropleths
 ```{r}
 # binge drinking choropleth
 df_chlor <- states|>select(-Region)|>
@@ -172,80 +232,20 @@ df_chlor <- states|>select(-Region)|>
 
 state_choropleth(df_chlor,
                  title = "State Binge Drinking Prevalence",
-                 legend = "Average Percent of Binge Drinking")
-```
-
-```{r}
+                 legend = "Average Prevalence of Binge Drinking (%)")
 # age choropleth
 df_chlor2 <- states|>select(-Region)|>
   transmute(region = tolower(`State`), value = avg_age)
 
 state_choropleth(df_chlor2,
                  title = "Average Age per State",
-                 legend = "Average Age in Years")
-```
-
-```{r}
+                 legend = "Average Age")
 # population choropleth
 df_chlor3 <- states|>select(-Region)|>
   transmute(region = tolower(`State`), value = total_pop)
 
 state_choropleth(df_chlor3,
                  title = "Total Population per State",
-                 legend = "Total Population")
+                 legend = "Total Population (Millions)")
 ```
-
-# Boxplots
-```{r}
-# states
-ggplot(states, aes(x=meanPrv, y=Region))+
-  geom_boxplot()+
-  geom_density_ridges(alpha = 0.5)
-
-
-### outlier on left is utah - mormons
-```
-
-```{r}
-# all
-ggplot(combined, aes(x=BingeDrinkingPrv, y=Region))+
-  geom_boxplot()+
-  geom_density_ridges(alpha = 0.5)
-```
-
-
-# Heatmaps
-
-```{r}
-ggplot(states, aes(meanPrv, total_pop)) + 
-  geom_hex(bins=8) +
-  scale_fill_gradient(low = "grey", high = "purple") +  
-  theme_classic(18) +
-  ggtitle("Heatmap of Total Population and Mean Prevalence")
-```
-
-```{r}
-ggplot(states, aes(meanPrv, avg_age)) + 
-  geom_hex(bins=8) +
-  scale_fill_gradient(low = "grey", high = "purple") +  
-  theme_classic(18) +
-  ggtitle("Heatmap of Mean Age and Binge Drinking Prevalence")
-```
-
-
-# Contour Lines
-```{r}
-ggplot(states, aes(meanPrv, total_pop)) +
-  geom_density_2d(bins=5, linewidth=1) +
-  geom_point() +
-  ggtitle("Combined with scatterplot")
-```
-
-```{r}
-ggplot(states, aes(meanPrv, avg_age)) +
-  geom_density_2d(bins=5, linewidth=1) +
-  geom_point() +
-  ggtitle("Combined with scatterplot")
-```
-
-
+The first choropleth shows the percentage of binge drinkers in every state. We note that the highest percentages correspond with the northern areas of the country, which are usually colder. This could imply a correlation between binge drinking and weather, but that would need to be explored further with an additional data set of the weather in the 50 states. The main issue with choropleths is that a larger shaded area doesn't necessarily mean that there are more binge drinkers in general, its just a calculation of the percentage relative to the population, and we show that difference by including an additional choropleth for population spread and note that there isn't much overlap between population size and binge percentage. We also include one for ages, and we see a slight negative correlation where the areas with lower ages correspond to higher average drinking rates and vice versa, but its difficult to tell just by looking at two seperate graphs. 

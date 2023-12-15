@@ -6,6 +6,8 @@
   }
 </style>
 
+<h2> Scatterplots of Binge Drinking for Each US State</h2>
+
 <div id="plot">
 </div>
 
@@ -14,16 +16,16 @@
    Please select one of the options below:</p>
 <input type="radio" name="button" value="Age">Age</input>
 <input type="radio" name="button" value="Population">Population</input>
-<p id="Region";>
+<p id="Region;">
    Region:</p>
-<p id="Northeast"style= "color: Blue;">
-   Northeast</p>
-<p id="South"style= "color: Green;">
-   South</p>
-<p id="Midwest"style= "color: Purple;">
+<p id="Midwest"style= "color: #F294D1;">
    Midwest</p>
-<p id="West"style= "color: Red;">
+<p id="West"style= "color: #889ABF;">
    West</p>
+<p id="Northeast"style= "color: #65BF9E;">
+   Northeast</p>
+<p id="South"style= "color: #F28963;">
+   South</p>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="scripts/myscript.js"></script>

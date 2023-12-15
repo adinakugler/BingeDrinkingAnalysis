@@ -165,14 +165,32 @@ ul.task-list li input[type="checkbox"] {
     font-family: sans-serif;
   }
 </style>
+<h2 class="anchored">
+Scatterplots of Binge Drinking for Each US State
+</h2>
 <div id="plot">
 
 </div>
 
-<p id="color" style="background-color: plum; color: white;">
+<p id="color">
 Please select one of the options below:
 </p>
-<p><input type="radio" name="button" value="Age">Age <input type="radio" name="button" value="Population">Population</p>
+<input type="radio" name="button" value="Age">Age <input type="radio" name="button" value="Population">Population
+<p id="Region;">
+Region:
+</p>
+<p id="Midwest" style="color: #F294D1;">
+Midwest
+</p>
+<p id="West" style="color: #889ABF;">
+West
+</p>
+<p id="Northeast" style="color: #65BF9E;">
+Northeast
+</p>
+<p id="South" style="color: #F28963;">
+South
+</p>
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="scripts/myscript.js"></script>
 

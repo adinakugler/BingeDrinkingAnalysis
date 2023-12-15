@@ -3,8 +3,8 @@
 
 
 // Width and height
-const w = 700;
-const h = 300;
+const w = 800;
+const h = 600;
 const margin = {top: 25, right: 100, bottom: 50, left: 100};
 const innerHeight = h - margin.top - margin.bottom;
 const innerWidth = w - margin.left - margin.right;
@@ -26,7 +26,7 @@ const svg = d3.select("div#plot")
 svg.append("rect")
 .attr("width", w)
 .attr("height", h)
-.attr("fill", "#e7f5fe");
+.attr("fill", "#F2F2F2");
 
 // create plot group
 svg.append("g")
@@ -39,57 +39,57 @@ d3.select("div#plot")
 
 
 const drink = [
-    ["Alabama", 2895464, 39.1, 13.2, "South"],
-    ["Alaska", 875478, 35.9, 20.2, "West"],
-    ["Arizona", 11687735, 38.7, 17.2, "West"],
-    ["Arkansas", 1471103, 38.7, 15.7, "South"],
-    ["California", 67100209, 37.6, 18.4, "West"],
-    ["Colorado", 7530596, 37.7, 19.1, "West"],
-    ["Connecticut", 2614482, 40.2, 15.7, "Northeast"],
-    ["Delaware", 212553, 40.2, 15.2, "South"],
-    ["District of Columbia", 1805136, 36.6, 22.6, "South"],
-    ["Florida", 15498792, 41.5, 16.4, "South"],
-    ["Georgia", 4655188, 37.3, 15.5, "South"],
-    ["Hawaii", 2859575, 40.1, 19.9, "West"],
-    ["Idaho", 1086951, 37.4, 16.4, "West"],
-    ["Illinois", 13342475, 38.6, 20.6, "Midwest"],
-    ["Indiana", 5482268, 38.2, 16.7, "Midwest"],
-    ["Iowa", 1945093, 38.8, 20.4, "Midwest"],
-    ["Kansas", 3127363, 37.9, 17.4, "Midwest"],
-    ["Kentucky", 2679375, 38.9, 18.5, "South"],
-    ["Louisiana", 3095748, 37.9, 19.0, "South"],
-    ["Maine", 198582, 42.4, 20.1, "Northeast"],
-    ["Maryland", 1862861, 38.8, 17.0, "South"],
-    ["Massachusetts", 5582948, 39.7, 20.1, "Northeast"],
-    ["Michigan", 6675540, 39.6, 16.5, "Midwest"],
-    ["Minnesota", 3269743, 38.5, 21.6, "Midwest"],
-    ["Mississippi", 723920, 38.1, 13.3, "South"],
-    ["Missouri", 4233803, 39.1, 19.4, "Midwest"],
-    ["Montana", 512871, 40.0, 23.1, "West"],
-    ["Nebraska", 2001998, 37.7, 22.3, "Midwest"],
-    ["Nevada", 4121634, 38.4, 19.3, "West"],
-    ["New Hampshire", 588177, 41.2, 17.9, "Northeast"],
-    ["New Jersey", 3535602, 39.4, 15.8, "Northeast"],
-    ["New Mexico", 2396638, 38.8, 16.1, "West"],
-    ["New York", 27889082, 39.3, 17.8, "Northeast"],
-    ["North Carolina", 8394827, 38.9, 17.1, "South"],
-    ["North Dakota", 316647, 37.5, 24.9, "Midwest"],
-    ["Ohio", 6990206, 39.4, 17.6, "Midwest"],
-    ["Oklahoma", 4079647, 37.7, 14.5, "South"],
-    ["Oregon", 3999150, 39.6, 19.1, "West"],
-    ["Pennsylvania", 6871879, 40.4, 19.8, "Northeast"],
-    ["Rhode Island", 1236744, 40.1, 17.7, "Northeast"],
-    ["South Carolina", 1442345, 39.5, 19.0, "South"],
-    ["South Dakota", 665478, 38.2, 18.5, "Midwest"],
-    ["Tennessee", 5508653, 38.9, 14.0, "South"],
-    ["Texas", 36974454, 35.8, 18.6, "South"],
-    ["Utah", 2792631, 33.3, 12.6, "West"],
-    ["Vermont", 127251, 41.4, 20.2, "Northeast"],
-    ["Virginia", 5754177, 38.7, 17.9, "South"],
-    ["Washington", 6244525, 38.5, 17.1, "West"],
-    ["West Virginia", 154151, 41.2, 11.9, "South"],
-    ["Wisconsin", 3760451, 39.4, 24.0, "Midwest"],
-    ["Wyoming", 178398, 38.5, 17.2, "West"]
+    ["Alabama", 2.90, 39.1, 13.2, "South"],
+    ["Alaska", 0.875, 35.9, 20.2, "West"],
+    ["Arizona", 11.7, 38.7, 17.2, "West"],
+    ["Arkansas", 1.47, 38.7, 15.7, "South"],
+    ["California", 67.1, 37.6, 18.4, "West"],
+    ["Colorado", 7.53, 37.7, 19.1, "West"],
+    ["Connecticut", 2.61, 40.2, 15.7, "Northeast"],
+    ["Delaware", 0.213, 40.2, 15.2, "South"],
+    ["District of Columbia", 1.81, 36.6, 22.6, "South"],
+    ["Florida", 15.5, 41.5, 16.4, "South"],
+    ["Georgia", 4.66, 37.3, 15.5, "South"],
+    ["Hawaii", 2.86, 40.1, 19.9, "West"],
+    ["Idaho", 1.09, 37.4, 16.4, "West"],
+    ["Illinois", 13.3, 38.6, 20.6, "Midwest"],
+    ["Indiana", 5.48, 38.2, 16.7, "Midwest"],
+    ["Iowa", 1.95, 38.8, 20.4, "Midwest"],
+    ["Kansas", 3.13, 37.9, 17.4, "Midwest"],
+    ["Kentucky", 2.68, 38.9, 18.5, "South"],
+    ["Louisiana", 3.10, 37.9, 19.0, "South"],
+    ["Maine", 0.199, 42.4, 20.1, "Northeast"],
+    ["Maryland", 1.86, 38.8, 17.0, "South"],
+    ["Massachusetts", 5.58, 39.7, 20.1, "Northeast"],
+    ["Michigan", 6.68, 39.6, 16.5, "Midwest"],
+    ["Minnesota", 3.27, 38.5, 21.6, "Midwest"],
+    ["Mississippi", 0.724, 38.1, 13.3, "South"],
+    ["Missouri", 4.23, 39.1, 19.4, "Midwest"],
+    ["Montana", 0.513, 40.0, 23.1, "West"],
+    ["Nebraska", 2.00, 37.7, 22.3, "Midwest"],
+    ["Nevada", 4.12, 38.4, 19.3, "West"],
+    ["New Hampshire", 0.588, 41.2, 17.9, "Northeast"],
+    ["New Jersey", 3.54, 39.4, 15.8, "Northeast"],
+    ["New Mexico", 2.40, 38.8, 16.1, "West"],
+    ["New York", 27.9, 39.3, 17.8, "Northeast"],
+    ["North Carolina", 8.39, 38.9, 17.1, "South"],
+    ["North Dakota", 0.317, 37.5, 24.9, "Midwest"],
+    ["Ohio", 6.99, 39.4, 17.6, "Midwest"],
+    ["Oklahoma", 4.08, 37.7, 14.5, "South"],
+    ["Oregon", 4.00, 39.6, 19.1, "West"],
+    ["Pennsylvania", 6.87, 40.4, 19.8, "Northeast"],
+    ["Rhode Island", 1.24, 40.1, 17.7, "Northeast"],
+    ["South Carolina", 1.44, 39.5, 19.0, "South"],
+    ["South Dakota", 0.665, 38.2, 18.5, "Midwest"],
+    ["Tennessee", 5.51, 38.9, 14.0, "South"],
+    ["Texas", 37.0, 35.8, 18.6, "South"],
+    ["Utah", 2.79, 33.3, 12.6, "West"],
+    ["Vermont", 0.127, 41.4, 20.2, "Northeast"],
+    ["Virginia", 5.75, 38.7, 17.9, "South"],
+    ["Washington", 6.24, 38.5, 17.1, "West"],
+    ["West Virginia", 0.154, 41.2, 11.9, "South"],
+    ["Wisconsin", 3.76, 39.4, 24.0, "Midwest"],
+    ["Wyoming", 0.178, 38.5, 17.2, "West"]
 ];
 
 
@@ -110,7 +110,7 @@ const yAxis = d3.axisLeft()
  // Create a color scale for regions
 var region = d3.scaleOrdinal()
   .domain(["Northeast", "South", "Midwest", "West"])
-  .range([ "Blue", "Green", "Purple", "Red"]);
+  .range([ "#F28963", "#65BF9E", "#F294D1", "#889ABF"]);
 
 // Create circles
 svg.select("g#plot")
@@ -154,7 +154,7 @@ svg.select("g#plot")
     .attr("x", innerWidth/2)
     .attr("y", innerHeight + .75 * margin.bottom)
     .attr("text-anchor", "middle")
-    .text("Percent of People who Binge Drink");
+    .text("Prevavlence of Binge Drinking (%)");
 
 // create y-axis
 svg.select("g#plot")
@@ -167,7 +167,7 @@ svg.select("g#plot")
   .append("text")
     .attr("id", "ylab")
     .attr("transform", "rotate(-90)")
-    .attr("y",  30 - margin.left)
+    .attr("y",  50 - margin.left)
     .attr("x", 0 - (innerHeight / 2))
     .attr("text-anchor", "middle")
     .text("Average Age");
@@ -190,7 +190,7 @@ d3.selectAll("input")
         .text("Average Age")
     } else {
     // update yScale domain
-        yScale.domain([100000,63000000]);
+        yScale.domain([0,65]);
     // update y-axis label
         svg.select("#ylab")
           .text("Population of State")
@@ -199,7 +199,7 @@ d3.selectAll("input")
           .attr("cy", d => yScale(d[1]))
     // update y-axis label
       svg.select("text#ylab")
-        .text("Total Population");
+        .text("Total Population (Millions)");
     };
   // update y-axis
   svg.select("#yaxis")
